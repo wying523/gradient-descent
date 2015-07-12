@@ -8,13 +8,12 @@ import matplotlib.pyplot as plt
 
 def main():
   data = list(csv.reader(open(sys.argv[1], "r"), delimiter=","))
-  data.pop(0)
-  x = np.asarray([i[1] for i in data])
-  y = np.asarray([i[2] for i in data])
-  plt.scatter(x, y)
-  plt.show()
 
-  #TODO - add linear regression steps
+  x = np.asarray([i[0] for i in data])
+  y = np.asarray([i[1] for i in data])
+  z = np.asarray([i[1] for i in data])
+  plt.scatter(x, y, z)
+  plt.show()
 
 if __name__ == "__main__":
   main()
