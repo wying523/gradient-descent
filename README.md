@@ -1,6 +1,6 @@
 # Gradient Descent Visualization
 
-A small app to visualize how linear regression takes place. Just run 
+A small app to visualize how gradienr decent takes place for linear regression. Just run 
 
 `$ python regr.py`
 
