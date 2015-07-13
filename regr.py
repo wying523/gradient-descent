@@ -51,12 +51,11 @@ def gradient_descent(x, y, alpha, numiter):
     t1.append(t1_tmp)
 
     cost_tmp = compute_cost(t0, t1, x, y, m)
-
     if abs(cost - cost_tmp) < 0.001:
       isconverged = True
 
     counter = counter + 1
-
+    
   return t0, t1
 
 
