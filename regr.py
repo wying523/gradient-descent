@@ -13,27 +13,39 @@ import matplotlib.pyplot as plt
 def hypothesis(t0, t1, x):
   return t0 + t1 * x
 
-
-def gradient_descent(x, y, alpha, numiter):
-  m = x.shape[0]
-  t0 = [0]
-  t1 = [0]
-
+def compute_cost(t0, t1, x, y, m):
   cost = 0
   for i in range(1, m + 1):
     cost += (hypothesis(t0[len(t0) - 1], t1[len(t1) - 1], x[i - 1]) - y[i - 1]) ** 2
+  return cost   
+
+
+def compute_sums(t0, t1, x, y, m):  
+  t0_tmp_sum = 0
+  t1_tmp_sum = 0
+
+  for i in range(1, m + 1):
+    t0_tmp_sum += hypothesis(t0[len(t0) - 1], t1[len(t1) - 1], x[i - 1]) - y[i - 1]
+    t1_tmp_sum += (hypothesis(t0[len(t0) - 1], t1[len(t1) - 1], x[i - 1]) - y[i - 1]) * x[i - 1]
+
+  return t0_tmp_sum, t1_tmp_sum
+
+
+
+def gradient_descent(x, y, alpha, numiter):
+  m = x.shape[0]
+  
+  t0 = [0]
+  t1 = [0]
+
+  cost = compute_cost(t0, t1, x, y, m)
 
   isconverged = False
   counter = 0
 
   while not isconverged and counter < numiter:
 
-    t0_tmp_sum = 0
-    t1_tmp_sum = 0
-    for i in range(1, m + 1):
-      t0_tmp_sum += hypothesis(t0[len(t0) - 1], t1[len(t1) - 1], x[i - 1]) - y[i - 1]
-      t1_tmp_sum += (hypothesis(t0[len(t0) - 1], t1[len(t1) - 1], x[i - 1]) - y[i - 1]) * x[i - 1]
-
+    t0_tmp_sum, t1_tmp_sum = compute_sums(t0, t1, x, y, m)
 
     t0_tmp = t0[len(t0) - 1] - alpha * t0_tmp_sum / m
     t1_tmp = t1[len(t1) - 1] - alpha * t1_tmp_sum / m
@@ -42,8 +54,9 @@ def gradient_descent(x, y, alpha, numiter):
     t1.append(t1_tmp)
 
     cost_tmp = 0
+
     for i in range(1, m + 1):
-      cost_tmp += (hypothesis(t0[len(t0) - 1], t1[len(t1) - 1], x[i - 1]) - y[i - 1]) ** 2
+      cost_tmp += compute_cost(t0, t1, x, y, m)
 
     if abs(cost - cost_tmp) < 0.001:
       isconverged = True
