@@ -3,8 +3,6 @@
   Released under MIT License
 '''
 from __future__ import division # for floating point div
-from scipy import stats
-from mpl_toolkits.mplot3d import Axes3D
 import csv
 import numpy as np
 import matplotlib.pyplot as plt
@@ -34,7 +32,7 @@ def compute_sums(t0, t1, x, y, m):
 
 def gradient_descent(x, y, alpha, numiter):
   m = x.shape[0]
-  
+
   t0 = [0]
   t1 = [0]
 
@@ -44,7 +42,6 @@ def gradient_descent(x, y, alpha, numiter):
   counter = 0
 
   while not isconverged and counter < numiter:
-
     t0_tmp_sum, t1_tmp_sum = compute_sums(t0, t1, x, y, m)
 
     t0_tmp = t0[len(t0) - 1] - alpha * t0_tmp_sum / m
@@ -53,10 +50,7 @@ def gradient_descent(x, y, alpha, numiter):
     t0.append(t0_tmp)
     t1.append(t1_tmp)
 
-    cost_tmp = 0
-
-    for i in range(1, m + 1):
-      cost_tmp += compute_cost(t0, t1, x, y, m)
+    cost_tmp = compute_cost(t0, t1, x, y, m)
 
     if abs(cost - cost_tmp) < 0.001:
       isconverged = True
@@ -97,11 +91,6 @@ def main():
   plt.xlabel('x')
   plt.ylabel('y')
   plt.show()
-
-
-
-
-
 
 
 
