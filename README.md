@@ -1,8 +1,10 @@
 # Gradient Descent Visualization
 
-A small program to visualize how linear regression takes place
+A small app to visualize how linear regression takes place. Just run 
 
-##Usage:
-`python plot_csv.py [*.csv file]`
+`$ python plot_csv.py'
 
-**Note:** The CSV file must be two column with only numbers in each column. 
+and you're good to go!
+
+
+
