@@ -24,7 +24,7 @@ def h(x, theta_0, theta_1):
 
 '''
   REQUIRES:   non-empty lists x and y
-  MODIFIES:   none
+  MODIFIES:   theta_0, theta_1
   EFFECTS:    returns the slope and y-intercept of regression for one "step"
 
 '''
@@ -78,6 +78,8 @@ def main():
 
   # need some way to animate plot at each step -- TODO
   plt.show()
+
+
 
 if __name__ == "__main__":
   main()
