@@ -3,6 +3,7 @@
   Released under MIT License
 '''
 from __future__ import division # for floating point div
+from scipy import stats
 import csv
 import numpy as np
 import matplotlib.pyplot as plt
@@ -38,10 +39,10 @@ def gradient_descent(x, y, alpha, numiter):
 
   cost = compute_cost(t0, t1, x, y, m)
 
-  isconverged = False
+  is_converged = False
   counter = 0
 
-  while not isconverged and counter < numiter:
+  while (not is_converged) and counter < numiter:
     t0_tmp_sum, t1_tmp_sum = compute_sums(t0, t1, x, y, m)
 
     t0_tmp = t0[len(t0) - 1] - alpha * t0_tmp_sum / m
@@ -52,15 +53,14 @@ def gradient_descent(x, y, alpha, numiter):
 
     cost_tmp = compute_cost(t0, t1, x, y, m)
     if abs(cost - cost_tmp) < 0.001:
-      isconverged = True
+      is_converged = True
 
     counter = counter + 1
-    
+
   return t0, t1
 
 
 def main():
-
   filename = 'data1.csv'
 
   data = list(csv.reader(open(filename, 'r'), delimiter = ','))
@@ -75,18 +75,27 @@ def main():
   # make sure to choose alpha wisely or else overflow errors can occur
 
   alpha = 0.01
-  numiter = 2000
+  numiter = 5000
 
   t0, t1 = gradient_descent(x_vals, y_vals, alpha, numiter)
+  print len(t0)
+  print len(t1)
 
   intercept =  t0[len(t0) - 1]
   slope =  t1[len(t1) - 1]
 
-  print intercept
-  print slope
+  slope_act, intercept_act, r_value, p_value, std_err = stats.linregress(x_vals,y_vals)
+
+  print 'our slope {} vs scipy stats{}'.format(slope, slope_act)
+  print 'out intercept {} vs scipy stats {}'.format(intercept, intercept_act)
+
 
   plt.scatter(x_vals, y_vals, c='r', marker='x')
-  plt.plot(x_vals, [intercept + slope * i for i in x_vals])
+
+  plt.plot(x_vals, [intercept + slope * i for i in x_vals], c='g', label='our regression routine')
+  plt.plot(x_vals, [intercept_act + slope_act * i for i in x_vals], c='b', label='scipy stats regression routine')
+
+
   plt.xlabel('x')
   plt.ylabel('y')
   plt.show()
