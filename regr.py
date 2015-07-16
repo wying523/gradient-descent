@@ -103,7 +103,7 @@ def main():
   #y_vals = np.loadtxt('ex2y.dat')
 
   # make sure to choose alpha and/or numiter wisely or else overflow errors can occur
-  # a good range for alpha 0.001 < alpha < 10, depending on the dataset
+  # a good range for alpha is 0.001 < alpha < 10, depending on the dataset
   alpha = 0.01
   numiter = 2000
 
