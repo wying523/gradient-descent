@@ -9,9 +9,23 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def hypothesis(t0, t1, x):
-  return t0 + t1 * x
 
+'''
+  REQUIRES: initialized theta_0, theta_1, and x_i
+  MODIFIES: none
+  EFFECTS:  returns the value of the hypothesis function given the parameters
+            theta_0 ("intercept") and theta_1 ("slope") for a datum x_i from the
+            training set
+'''
+def hypothesis(t0, t1, x_i):
+  return t0 + t1 * x_i
+
+
+'''
+  REQUIRES: non-empty x, y and non-zero m
+  MODIFIES: none
+  EFFECTS:  returns the squared error (i.e. "cost") for given theta_0 and theta_1
+'''
 def compute_cost(t0, t1, x, y, m):
   cost = 0
   for i in range(1, m + 1):
@@ -19,6 +33,13 @@ def compute_cost(t0, t1, x, y, m):
   return cost   
 
 
+
+'''
+  REQUIRES: valid t0, t1, m and non-empty x, y
+  MODIFIES: t_0, t1
+  EFFECTS:  calculates temp t_0 and t_1 values which will be assigned in the
+            gradient descent function
+'''
 def compute_sums(t0, t1, x, y, m):  
   t0_tmp_sum = 0
   t1_tmp_sum = 0
@@ -29,9 +50,15 @@ def compute_sums(t0, t1, x, y, m):
 
   return t0_tmp_sum, t1_tmp_sum
 
-
-
+'''
+  REQUIRES: valid x, y, and suitable alpha and numiter (to avoid overflow)
+  MODIFIES: t_0 and t_1
+  EFFECTS:  computes the optimal parameters for the hypothesis function -- that
+            is, find the best fit line for a dataset
+'''
 def gradient_descent(x, y, alpha, numiter):
+  # TODO: redo in terms of matrix calculations
+  # TODO: add error-handling for overflow
   m = x.shape[0]
 
   t0 = [0]
@@ -52,7 +79,9 @@ def gradient_descent(x, y, alpha, numiter):
     t1.append(t1_tmp)
 
     cost_tmp = compute_cost(t0, t1, x, y, m)
-    if abs(cost - cost_tmp) < 0.001:
+
+    # not sure if this is a corect way to do it but w/e
+    if abs(cost - cost_tmp) < alpha:
       is_converged = True
 
     counter = counter + 1
@@ -69,13 +98,14 @@ def main():
   y_vals = np.asarray([i[1] for i in data], dtype=np.float)
   
 
+  # uncomment this if you want to use the data from Stanford's OpenBook class
   #x_vals = np.loadtxt('ex2x.dat')
   #y_vals = np.loadtxt('ex2y.dat')
 
-  # make sure to choose alpha wisely or else overflow errors can occur
-
+  # make sure to choose alpha and/or numiter wisely or else overflow errors can occur
+  # a good range for alpha 0.001 < alpha < 10, depending on the dataset
   alpha = 0.01
-  numiter = 5000
+  numiter = 2000
 
   t0, t1 = gradient_descent(x_vals, y_vals, alpha, numiter)
   print len(t0)
